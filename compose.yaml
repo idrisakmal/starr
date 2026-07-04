@@ -136,3 +136,35 @@ services:
       interval: 15s
       retries: 3
     restart: unless-stopped
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    volumes:
+      - ./bazarr:/config
+      - ${MEDIA_DIR}:/data
+    ports:
+      - 6767:6767
+    restart: unless-stopped
+    environment:
+      - PGID=${GROUP_ID}
+      - PUID=${USER_ID}
+      - TZ=${TIMEZONE}
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:6767/api/system/status || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+  cloudflared:
+    container_name: cloudflared
+    image: cloudflare/cloudflared:latest
+    command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}
+    restart: always
+    environment:
+      - CLOUDFLARE_TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+    depends_on:
+      - jellyseerr
+      - sonarr
+      - radarr
+      - prowlarr
+      - bazarr
