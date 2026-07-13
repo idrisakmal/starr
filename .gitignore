@@ -25,6 +25,9 @@
 !radarr/
 !radarr/config.xml.template
 
+!radarr-custom/
+!radarr-custom/**
+
 !recyclarr/
 !recyclarr/settings.yml
 !recyclarr/recyclarr.yml

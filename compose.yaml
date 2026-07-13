@@ -64,7 +64,11 @@ services:
       retries: 5
       start_period: 60s
   recyclarr:
-    image: recyclarr/recyclarr
+    # Pinned to 7.x: v8 is a breaking rewrite (new "providers" layout that fetches
+    # the empty `v8` branch of config-templates) and cannot resolve this v7-style
+    # config's include templates. Auto-updating to v8.3.2 silently broke every
+    # sync from ~Feb 2026. Stay on 7.x until this config is migrated to v8.
+    image: recyclarr/recyclarr:7.5.2
     container_name: recyclarr
     volumes:
       - ./recyclarr:/config

@@ -1,0 +1,30 @@
+{
+  "name": "YIFY",
+  "includeCustomFormatWhenRenaming": false,
+  "specifications": [
+    {
+      "name": "YIFY/YTS Release Group",
+      "implementation": "ReleaseGroupSpecification",
+      "negate": false,
+      "required": false,
+      "fields": [
+        {
+          "name": "value",
+          "value": "\\b(YIFY|YTS)\\b"
+        }
+      ]
+    },
+    {
+      "name": "YIFY/YTS Release Title",
+      "implementation": "ReleaseTitleSpecification",
+      "negate": false,
+      "required": false,
+      "fields": [
+        {
+          "name": "value",
+          "value": "\\b(YIFY|YTS)\\b"
+        }
+      ]
+    }
+  ]
+}

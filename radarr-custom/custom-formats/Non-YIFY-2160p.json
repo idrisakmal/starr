@@ -1,0 +1,42 @@
+{
+  "name": "Non-YIFY 2160p",
+  "includeCustomFormatWhenRenaming": false,
+  "specifications": [
+    {
+      "name": "Is 2160p",
+      "implementation": "ResolutionSpecification",
+      "negate": false,
+      "required": true,
+      "fields": [
+        {
+          "name": "value",
+          "value": 2160
+        }
+      ]
+    },
+    {
+      "name": "Not YIFY Group",
+      "implementation": "ReleaseGroupSpecification",
+      "negate": true,
+      "required": true,
+      "fields": [
+        {
+          "name": "value",
+          "value": "\\b(YIFY|YTS)\\b"
+        }
+      ]
+    },
+    {
+      "name": "Not YIFY Title",
+      "implementation": "ReleaseTitleSpecification",
+      "negate": true,
+      "required": true,
+      "fields": [
+        {
+          "name": "value",
+          "value": "\\b(YIFY|YTS)\\b"
+        }
+      ]
+    }
+  ]
+}
