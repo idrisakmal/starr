@@ -14,7 +14,7 @@ Think of this as a "smart home theater assistant" that:
 4. Provides a nice interface - Gives you a web dashboard where you can request shows/movies and see what's available
 
 What it includes:
-- Overseerr - The main interface where you request movies/TV shows
+- Seerr - The main interface where you request movies/TV shows (successor to Overseerr/Jellyseerr)
 - Sonarr - Manages TV show downloads and organization
 - Radarr - Manages movie downloads and organization
 - Prowlarr - Searches across multiple sources to find content
@@ -39,7 +39,7 @@ The repository provides an easy Docker-based setup that runs all these applicati
 - Replace `MEDIA_DIR` with path to where you'll be storing media on your host machine
 - Replace `USER_ID` and `GROUP_ID` with your host user id and group -
 - Run `make start`
-- Visit the `HOSTNAME` or `localhost:5055` and configure `Overseer` using the wizard
+- Visit the `HOSTNAME` or `localhost:5055` and configure `Seerr` using the wizard
 - For each Radarr/Sonarr/Prowlarr apps, configure the `Download Client`, I use `qbittorrent`
 - Configure Root Folders/Folder Mapping if you're using WSL
 
@@ -49,9 +49,9 @@ The repository provides an easy Docker-based setup that runs all these applicati
 - Replace `CLOUDFLARE_TUNNEL_TOKEN` with your Cloudflare Tunnel token
 - Run `make start` to start again with the tunnel
 - Now that the tunnel is running alongside the stack, you can access the applications via the tunnel URL
-- The tunnel should be able to resolve the service names defined in the `docker-compose.yml` file (e.g. `overseerr`, `sonarr`, `radarr`, `prowlarr`)
+- The tunnel should be able to resolve the service names defined in the `docker-compose.yml` file (e.g. `seerr`, `sonarr`, `radarr`, `prowlarr`)
 - Configure applications in Cloudflare Zero Trust > Access > Applications
-    - Example: `overseerr.yourdomain.com` -> `http://overseerr:5055`
+    - Example: `seerr.yourdomain.com` -> `http://seerr:5055`
     - Example: `sonarr.yourdomain.com` -> `http://sonarr:8989`
     - Example: `radarr.yourdomain.com` -> `http://radarr:7878`
     - Example: `prowlarr.yourdomain.com` -> `http://prowlarr:9696`
