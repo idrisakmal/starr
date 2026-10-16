@@ -18,6 +18,10 @@ What it includes:
 - Sonarr - Manages TV show downloads and organization
 - Radarr - Manages movie downloads and organization
 - Prowlarr - Searches across multiple sources to find content
+- Bazarr - Finds and downloads subtitles
+- Tautulli - Plex activity, history and per-user stats
+- Maintainerr - Rules-based library cleanup, clears titles from Plex, the arrs and Seerr
+- Homepage - Single dashboard with live widgets for everything above
 - qBittorrent - Downloads the actual files
 
 In simple terms: Instead of manually searching for and downloading shows/movies yourself, you just tell this system what you want to watch, and it automatically finds, downloads, and organizes everything for you. You access it through a web browser like Netflix, but for your personal collection.
@@ -40,6 +44,10 @@ The repository provides an easy Docker-based setup that runs all these applicati
 - Replace `USER_ID` and `GROUP_ID` with your host user id and group -
 - Run `make start`
 - Visit the `HOSTNAME` or `localhost:5055` and configure `Seerr` using the wizard
+- Visit `localhost:3000` for the Homepage dashboard, `localhost:8181` to point Tautulli at
+  your Plex server, and `localhost:6246` to connect Maintainerr to Plex and Seerr
+- Homepage reads its api keys from `HOMEPAGE_VAR_*` env vars, so fill in `SEERR_API_KEY`,
+  `BAZARR_API_KEY` and `TAUTULLI_API_KEY` in `.env` (each app shows its key in its own settings)
 - For each Radarr/Sonarr/Prowlarr apps, configure the `Download Client`, I use `qbittorrent`
 - Configure Root Folders/Folder Mapping if you're using WSL
 
@@ -55,6 +63,10 @@ The repository provides an easy Docker-based setup that runs all these applicati
     - Example: `sonarr.yourdomain.com` -> `http://sonarr:8989`
     - Example: `radarr.yourdomain.com` -> `http://radarr:7878`
     - Example: `prowlarr.yourdomain.com` -> `http://prowlarr:9696`
+    - Example: `home.yourdomain.com` -> `http://homepage:3000`
+    - Example: `tautulli.yourdomain.com` -> `http://tautulli:8181`
+- If you expose Homepage, add that hostname to `HOMEPAGE_ALLOWED_HOSTS` in `.env` or it will
+  reject the tunnel's requests
 - In order to secure access to your applications, you can set up authentication methods in Cloudflare Zero Trust
     - Example: Google OAuth, GitHub OAuth, One-time PIN, etc.
 - Once configured, configure policies to restrict access to your applications

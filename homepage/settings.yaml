@@ -1,0 +1,18 @@
+---
+title: Starr
+theme: dark
+color: slate
+headerStyle: boxed
+layout:
+  Requests:
+    style: row
+    columns: 1
+  Media:
+    style: row
+    columns: 3
+  Discovery:
+    style: row
+    columns: 2
+  Maintenance:
+    style: row
+    columns: 2

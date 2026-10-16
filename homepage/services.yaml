@@ -1,0 +1,70 @@
+---
+# Widget urls use compose service names (container-to-container); href uses the
+# published host port, so links assume you are browsing from the docker host.
+# API keys come from HOMEPAGE_VAR_* env vars so they stay out of this file.
+- Requests:
+    - Seerr:
+        icon: seerr.png
+        href: http://localhost:5055
+        description: Movie and TV requests
+        widget:
+          type: seerr
+          url: http://seerr:5055
+          key: "{{HOMEPAGE_VAR_SEERR_API_KEY}}"
+
+- Media:
+    - Radarr:
+        icon: radarr.png
+        href: http://localhost:7878
+        description: Movies
+        widget:
+          type: radarr
+          url: http://radarr:7878
+          key: "{{HOMEPAGE_VAR_RADARR_API_KEY}}"
+    - Sonarr:
+        icon: sonarr.png
+        href: http://localhost:8989
+        description: TV and anime
+        widget:
+          type: sonarr
+          url: http://sonarr:8989
+          key: "{{HOMEPAGE_VAR_SONARR_API_KEY}}"
+    - Bazarr:
+        icon: bazarr.png
+        href: http://localhost:6767
+        description: Subtitles
+        widget:
+          type: bazarr
+          url: http://bazarr:6767
+          key: "{{HOMEPAGE_VAR_BAZARR_API_KEY}}"
+
+- Discovery:
+    - Prowlarr:
+        icon: prowlarr.png
+        href: http://localhost:9696
+        description: Indexer manager
+        widget:
+          type: prowlarr
+          url: http://prowlarr:9696
+          key: "{{HOMEPAGE_VAR_PROWLARR_API_KEY}}"
+    - Byparr:
+        icon: si-firefoxbrowser
+        href: http://localhost:8191/docs
+        description: Cloudflare challenge solver
+
+- Maintenance:
+    - Tautulli:
+        icon: tautulli.png
+        href: http://localhost:8181
+        description: Plex activity and history
+        widget:
+          type: tautulli
+          url: http://tautulli:8181
+          key: "{{HOMEPAGE_VAR_TAUTULLI_API_KEY}}"
+    - Maintainerr:
+        icon: maintainerr.png
+        href: http://localhost:6246
+        description: Library cleanup rules
+        widget:
+          type: maintainerr
+          url: http://maintainerr:6246

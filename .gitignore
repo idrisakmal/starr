@@ -19,6 +19,13 @@
 !seerr/
 !seerr/settings.json.partial
 
+!homepage/
+# only the hand-written configs; homepage drops its own defaults in here too
+!homepage/settings.yaml
+!homepage/services.yaml
+!homepage/widgets.yaml
+!homepage/bookmarks.yaml
+
 !prowlarr/
 !prowlarr/config.xml.template
 
