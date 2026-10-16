@@ -15,7 +15,7 @@ services:
       - LOG_LEVEL=${LOG_LEVEL}
       - SONARR_API_KEY=${SONARR_API_KEY}
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8989/api/v3/health -H 'X-Api-Key: $$SONARR_API_KEY' || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:8989/api/v3/health -H \"X-Api-Key: $$SONARR_API_KEY\" || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -36,7 +36,7 @@ services:
       - LOG_LEVEL=${LOG_LEVEL}
       - RADARR_API_KEY=${RADARR_API_KEY}
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:7878/api/v3/health -H 'X-Api-Key: $$RADARR_API_KEY' || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:7878/api/v3/health -H \"X-Api-Key: $$RADARR_API_KEY\" || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -56,7 +56,7 @@ services:
       - LOG_LEVEL=${LOG_LEVEL}
       - PROWLARR_API_KEY=${PROWLARR_API_KEY}
     depends_on:
-      - flaresolverr
+      - byparr
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:9696/api/v1/health -H \"X-Api-Key: $$PROWLARR_API_KEY\" || exit 1"]
       interval: 30s
@@ -81,23 +81,35 @@ services:
       - RECYCLARR_CREATE_CONFIG=true
       - SONARR_API_KEY=${SONARR_API_KEY}
       - RADARR_API_KEY=${RADARR_API_KEY}
-  flaresolverr:
-    image: ghcr.io/flaresolverr/flaresolverr:latest
-    container_name: flaresolverr
+  byparr:
+    # Drop-in replacement for FlareSolverr, which is archived upstream and no
+    # longer clears current Cloudflare challenges. Byparr serves the same
+    # POST /v1 contract, so Prowlarr still talks to it as a FlareSolverr proxy.
+    image: ghcr.io/thephaseless/byparr:latest
+    container_name: byparr
     ports:
       - 8191:8191
     restart: unless-stopped
+    # Camoufox needs real shared memory; /tmp is scratch so keep it in RAM.
+    shm_size: 1gb
+    tmpfs:
+      - /tmp:exec,mode=1777,size=1G
+    # The stealth browser is downloaded at runtime (~400MB extracted), which
+    # overflows a tmpfs /cache and would re-download on every restart.
+    volumes:
+      - byparr-cache:/cache
     environment:
       - LOG_LEVEL=${LOG_LEVEL}
-      - LOG_HTML=false
-      - CAPTCHA_SOLVER=none
       - TZ=${TIMEZONE}
     healthcheck:
+      # /health drives a real browser fetch, so probe it sparingly once up.
+      # start_interval keeps the config service's service_healthy gate quick.
       test: ["CMD-SHELL", "curl -f http://localhost:8191/health || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 30s
+      interval: 5m
+      timeout: 60s
+      retries: 3
+      start_period: 180s
+      start_interval: 10s
   config:
     build:
       context: .
@@ -115,11 +127,11 @@ services:
       - SONARR_API_KEY=${SONARR_API_KEY}
       - PROWLARR_API_KEY=${PROWLARR_API_KEY}
       - PROWLARR_URL=http://prowlarr:9696
-      - FLARESOLVERR_URL=http://flaresolverr:8191
+      - FLARESOLVERR_URL=http://byparr:8191
     depends_on:
       prowlarr:
         condition: service_healthy
-      flaresolverr:
+      byparr:
         condition: service_healthy
     command: ["--apply"]
   seerr:
@@ -161,7 +173,8 @@ services:
       - PUID=${USER_ID}
       - TZ=${TIMEZONE}
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:6767/api/system/status || exit 1"]
+      # /api/system/status requires an API key, so check the unauthenticated UI root
+      test: ["CMD-SHELL", "curl -f http://localhost:6767/ || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -179,3 +192,6 @@ services:
       - radarr
       - prowlarr
       - bazarr
+
+volumes:
+  byparr-cache:

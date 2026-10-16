@@ -10,7 +10,7 @@ export class FlaresolverrService {
     private prowlarrService: ProwlarrService
   ) {
     this.config = {
-      flaresolverrUrl: this.envService.get('FLARESOLVERR_URL') || 'http://flaresolverr:8191',
+      flaresolverrUrl: this.envService.get('FLARESOLVERR_URL') || 'http://byparr:8191',
       tagName: this.envService.get('FLARESOLVERR_TAG_NAME') || 'flaresolver'
     };
   }
