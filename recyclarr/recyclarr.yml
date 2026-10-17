@@ -121,7 +121,10 @@ radarr:
           enabled: true
         upgrade:
           allowed: true
-          until_quality: Remux-2160p
+          # Was Remux-2160p, which drove 60-80GB grabs (one remux measured at
+          # 635 MB/min vs 201 for the biggest Bluray-2160p encode). Bluray-2160p
+          # is now the ceiling: highest quality without the remux bitrate.
+          until_quality: Bluray-2160p
           until_score: 10000
         # "Grab anything except CAM, then upgrade" — allow all tiers down to SDTV
         # (cam/pre-retail tiers below are simply not listed, so they stay disabled),
@@ -129,14 +132,13 @@ radarr:
         min_format_score: -1000
         quality_sort: top
         qualities:
-          - name: Remux-2160p
+          # Remux-2160p and Remux-1080p are deliberately NOT listed (= disabled).
           - name: Bluray-2160p
           - name: WEB 2160p
             qualities:
               - WEBDL-2160p
               - WEBRip-2160p
           - name: HDTV-2160p
-          - name: Remux-1080p
           - name: Bluray-1080p
           - name: WEB 1080p
             qualities:
@@ -158,8 +160,8 @@ radarr:
           - name: DVD-R
           - name: DVD
           - name: SDTV
-          # Not listed (disabled): DVDSCR, REGIONAL, TELECINE, TELESYNC, CAM,
-          # WORKPRINT, Unknown, BR-DISK, Raw-HD
+          # Not listed (disabled): Remux-2160p, Remux-1080p, DVDSCR, REGIONAL,
+          # TELECINE, TELESYNC, CAM, WORKPRINT, Unknown, BR-DISK, Raw-HD
 
     include:
       # Comment out any of the following includes to disable them

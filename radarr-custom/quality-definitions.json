@@ -101,28 +101,28 @@
     "quality": "HDTV-2160p",
     "title": "HDTV-2160p",
     "minSize": 0,
-    "maxSize": null,
+    "maxSize": 250,
     "preferredSize": null
   },
   {
     "quality": "WEBRip-2160p",
     "title": "WEBRip-2160p",
     "minSize": 0,
-    "maxSize": null,
+    "maxSize": 250,
     "preferredSize": null
   },
   {
     "quality": "WEBDL-2160p",
     "title": "WEBDL-2160p",
     "minSize": 0,
-    "maxSize": null,
+    "maxSize": 250,
     "preferredSize": null
   },
   {
     "quality": "Bluray-2160p",
     "title": "Bluray-2160p",
     "minSize": 0,
-    "maxSize": null,
+    "maxSize": 250,
     "preferredSize": null
   },
   {
@@ -206,7 +206,7 @@
     "quality": "Remux-2160p",
     "title": "Remux-2160p",
     "minSize": 0,
-    "maxSize": null,
+    "maxSize": 400,
     "preferredSize": null
   }
 ]
